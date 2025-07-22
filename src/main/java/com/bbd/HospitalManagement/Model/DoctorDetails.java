@@ -2,6 +2,8 @@ package com.bbd.HospitalManagement.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
@@ -9,7 +11,9 @@ public class DoctorDetails {
 
 	@Id
 	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@Column
 	private String name;
 	@Column
@@ -49,9 +53,8 @@ public class DoctorDetails {
 		this.contact = contact;
 	}
 
-	public DoctorDetails(Long id, String name, String specialization, String contact) {
+	public DoctorDetails(String name, String specialization, String contact) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.specialization = specialization;
 		this.contact = contact;
