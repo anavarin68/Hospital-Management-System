@@ -27,11 +27,6 @@ public class AppointmentController {
 
 	@Autowired
 	private PatientService patientService;
-
-	// ============================
-	// 🔹 Web (Thymeleaf) Endpoints
-	// ============================
-
 	// Show form to book a new appointment
 	@GetMapping("/new")
 	public String showAppointmentForm(Model model, HttpSession session) {
@@ -80,9 +75,6 @@ public class AppointmentController {
 		return "patient/patient-view-appointments";
 	}
 
-	// ============================
-	// 🔹 REST API Endpoints (JSON)
-	// ============================
 
 	@PostMapping("/api/add")
 	@ResponseBody
@@ -108,7 +100,8 @@ public class AppointmentController {
 		appointmentService.deleteAppointment(id);
 		return "Deleted appointment with id: " + id;
 	}
-
+	
+	//Update appointment status
 	@PutMapping("/api/update-status/{id}")
 	@ResponseBody
 	public AppointmentDetails updateStatus(@PathVariable Long id) {
@@ -120,6 +113,7 @@ public class AppointmentController {
 		return appointmentService.saveAppointment(appointment);
 	}
 	
+	//Delete appointment
 	@PostMapping("/delete/{id}")
 	public String deleteAppointmentFromPatient(@PathVariable Long id, HttpSession session) {
 	    Long patientId = (Long) session.getAttribute("patientId");

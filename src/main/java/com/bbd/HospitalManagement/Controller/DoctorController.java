@@ -45,7 +45,7 @@ public class DoctorController {
 	// GET: Show doctor login form
 	@GetMapping("/login")
 	public String showLoginForm() {
-		return "auth/doctor-login"; // corresponds to templates/auth/doctor-login.html
+		return "auth/doctor-login";
 	}
 
 	// POST: Handle doctor login
@@ -62,6 +62,7 @@ public class DoctorController {
 				});
 	}
 
+	//Get all appointments
 	@GetMapping("/appointments")
 	public String viewDoctorAppointments(Model model, HttpSession session) {
 		Long doctorId = (Long) session.getAttribute("doctorId");
@@ -72,7 +73,8 @@ public class DoctorController {
 		model.addAttribute("appointments", appointments);
 		return "doctor/doctor-view-appointments";
 	}
-
+	
+	//Update appointments status
 	@PostMapping("/appointments/{id}/complete")
 	public String markAppointmentCompleted(@PathVariable Long id, HttpSession session) {
 		Long doctorId = (Long) session.getAttribute("doctorId");
@@ -86,7 +88,8 @@ public class DoctorController {
 		}
 		return "redirect:/doctor/appointments";
 	}
-
+	
+	//Delete an appointment
 	@PostMapping("/appointments/{id}/delete")
 	public String deleteAppointment(@PathVariable Long id, HttpSession session) {
 		Long doctorId = (Long) session.getAttribute("doctorId");
@@ -100,7 +103,7 @@ public class DoctorController {
 		return "redirect:/doctor/appointments";
 	}
 
-
+	//Doctor Dashboard
 	@GetMapping("/dashboard")
 	public String doctorDashboard(HttpSession session, Model model) {
 	    Long doctorId = (Long) session.getAttribute("doctorId");
@@ -111,6 +114,4 @@ public class DoctorController {
 	    doctorService.getDoctorById(doctorId).ifPresent(doctor -> model.addAttribute("doctor", doctor));
 	    return "doctor/doctor-dashboard"; // templates/doctor/doctor-dashboard.html
 	}
-
-
 }

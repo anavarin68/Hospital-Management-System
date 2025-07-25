@@ -32,7 +32,7 @@ public class DoctorDetails {
 
 	@Column(nullable = false)
 	private String password;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private UserRole role;
@@ -118,5 +118,5 @@ public class DoctorDetails {
 
 	public DoctorDetails() {
 		super();
-	}	
+	}
 }

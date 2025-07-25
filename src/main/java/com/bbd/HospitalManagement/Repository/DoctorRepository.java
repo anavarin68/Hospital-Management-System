@@ -11,5 +11,6 @@ import com.bbd.HospitalManagement.Model.UserRole;
 @Repository
 public interface DoctorRepository extends JpaRepository<DoctorDetails, Long> {
 	Optional<DoctorDetails> findByEmail(String email);
+
 	Optional<DoctorDetails> findByEmailAndRole(String email, UserRole role);
 }

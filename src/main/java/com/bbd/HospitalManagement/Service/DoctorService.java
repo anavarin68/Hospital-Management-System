@@ -10,12 +10,12 @@ public interface DoctorService {
 
 	Optional<DoctorDetails> findByEmail(String email);
 
-    Optional<DoctorDetails> findByEmailAndRole(String email, UserRole role);
+	Optional<DoctorDetails> findByEmailAndRole(String email, UserRole role);
 
-    DoctorDetails registerDoctor(DoctorDetails doctor);
+	DoctorDetails registerDoctor(DoctorDetails doctor);
 
-    List<DoctorDetails> getAllDoctors();
+	List<DoctorDetails> getAllDoctors();
 
-    Optional<DoctorDetails> getDoctorById(Long id);
-   
+	Optional<DoctorDetails> getDoctorById(Long id);
+
 }

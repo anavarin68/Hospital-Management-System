@@ -17,13 +17,15 @@ public class PatientController {
 
 	@Autowired
 	private PatientService patientService;
-
+	
+	// GET: Show doctor registration form
 	@GetMapping("/register")
 	public String showRegistrationForm(Model model) {
 		model.addAttribute("patient", new PatientDetails());
 		return "auth/patient-register"; // Correct path
 	}
-
+	
+	// POST: Handle doctor registration
 	@PostMapping("/register")
 	public String registerPatient(@ModelAttribute PatientDetails patient, Model model) {
 		patient.setRole(UserRole.PATIENT); // Set the role
@@ -31,12 +33,14 @@ public class PatientController {
 		model.addAttribute("success", "Patient registered successfully!");
 		return "redirect:/patient/login";
 	}
-
+	
+	// GET: Show patient login form
 	@GetMapping("/login")
 	public String showLoginForm() {
 		return "auth/patient-login"; // matches templates/auth/patient-login.html
 	}
-
+	
+	// POST: Handle doctor login
 	@PostMapping("/login")
 	public String loginPatient(@RequestParam String email, @RequestParam String password, Model model,
 			HttpSession session) {
@@ -50,8 +54,7 @@ public class PatientController {
 				});
 	}
 
-
-
+	//Patient Dashboard
 	@GetMapping("/dashboard")
 	public String patientDashboard(HttpSession session, Model model) {
 	    Long patientId = (Long) session.getAttribute("patientId");

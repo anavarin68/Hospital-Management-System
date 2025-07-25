@@ -38,7 +38,7 @@ public class PatientServiceImplementation implements PatientService {
 	}
 
 	@Override
-    public Optional<PatientDetails> getPatientById(Long id) {
-        return patientRepository.findById(id);
-    }
+	public Optional<PatientDetails> getPatientById(Long id) {
+		return patientRepository.findById(id);
+	}
 }
