@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Patient Dashboard</title>
+<meta charset="UTF-8">
+<style>
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 100;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+	background-color: #fff;
+	margin: 10% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 40%;
+	border-radius: 5px;
+	text-align: left;
+}
+
+.modal-header {
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
+.close {
+	float: right;
+	font-size: 22px;
+	font-weight: bold;
+	color: #aaa;
+	cursor: pointer;
+}
+
+.close:hover {
+	color: black;
+}
+
+.modal-footer {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.btn {
+	padding: 6px 12px;
+	font-size: 14px;
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+	<div th:replace="common/navbar :: navbar"></div>
+	<h2>Welcome to Patient Dashboard</h2>
+
+	<div>
+		<h3>Profile</h3>
+		<button onclick="openModal()">View Profile</button>
+	</div>
+
+	<div>
+		<h3>New Appointment</h3>
+		<a th:href="@{/appointments/new}">Book New Appointment</a>
+	</div>
+
+	<div>
+		<h3>View Appointments</h3>
+		<a th:href="@{/appointments/patient}">View Appointments</a>
+	</div>
+
+	<div>
+		<h3>Logout</h3>
+		<a th:href="@{/logout}">Logout</a>
+	</div>
+
+	<!-- Modal -->
+	<div id="profileModal" class="modal" th:if="${patient != null}">
+		<div class="modal-content">
+			<span class="close" onclick="closeModal()">&times;</span>
+			<div class="modal-header">Patient Profile</div>
+			
+			<p><strong>ID:</strong> <span th:text="${patient.id}"></span></p>
+			<p><strong>Name:</strong> <span th:text="${patient.name}"></span></p>
+			<p><strong>Email:</strong> <span th:text="${patient.email}"></span></p>
+			<p><strong>Age:</strong> <span th:text="${patient.age}"></span></p>
+			<p><strong>Gender:</strong> <span th:text="${patient.gender}"></span></p>
+			<p><strong>Phone:</strong> <span th:text="${patient.contact}"></span></p>
+			<p><strong>Role:</strong> <span th:text="${patient.role}"></span></p>
+
+			<div class="modal-footer">
+				<button class="btn" onclick="closeModal()">Close</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function openModal() {
+			document.getElementById("profileModal").style.display = "block";
+		}
+
+		function closeModal() {
+			document.getElementById("profileModal").style.display = "none";
+		}
+
+		window.onclick = function(event) {
+			let modal = document.getElementById("profileModal");
+			if (event.target === modal) {
+				modal.style.display = "none";
+			}
+		}
+	</script>
+
+</body>
+</html>

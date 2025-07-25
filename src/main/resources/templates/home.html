@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hospital Management System - Home</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+	<div th:replace="common/navbar :: navbar"></div>
+	<h1>Welcome to the Hospital Management System</h1>
+	
+	<p>Please choose your role to continue:</p>
+	
+	<div>
+	    <h2>Doctor</h2>
+	    <a th:href="@{/doctor/register}">Register as Doctor</a><br>
+	    <a th:href="@{/doctor/login}">Login as Doctor</a>
+	</div>
+	
+	<br>
+	
+	<div>
+	    <h2>Patient</h2>
+	    <a th:href="@{/patient/register}">Register as Patient</a><br>
+	    <a th:href="@{/patient/login}">Login as Patient</a>
+	</div>
+
+</body>
+</html>

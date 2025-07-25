@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Patient Login</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+	<div th:replace="common/navbar :: navbar"></div>
+	<h2>Patient Login</h2>
+
+	<form th:action="@{/patient/login}" method="post">
+	    <label for="email">Email:</label>
+	    <input type="email" id="email" name="email" required /><br/>
+	
+	    <label for="password">Password:</label>
+	    <input type="password" id="password" name="password" required /><br/>
+	
+	    <button type="submit">Login</button>
+	</form>
+	
+	<p th:if="${error}" th:text="${error}" style="color: red;"></p>
+	
+	<p>Don't have an account? <a th:href="@{/patient/register}">Register here</a>.</p>
+
+</body>
+</html>

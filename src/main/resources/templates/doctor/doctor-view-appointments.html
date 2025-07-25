@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Doctor Appointments</title>
+<meta charset="UTF-8">
+</head>
+<body>
+	<div th:replace="common/navbar :: navbar"></div>
+	<h2>Doctor Appointments</h2>
+
+	<hr />
+
+	<div th:if="${#lists.isEmpty(appointments)}">
+		<p>No appointments found.</p>
+	</div>
+
+	<div th:unless="${#lists.isEmpty(appointments)}">
+		<table border="1" cellpadding="10">
+			<thead>
+				<tr>
+					<th>Patient Name</th>
+					<th>Appointment Time</th>
+					<th>Status</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="appointment : ${appointments}">
+					<td th:text="${appointment.patient.name}">Patient Name</td>
+					<td th:text="${appointment.appointmentDateTime}">Date & Time</td>
+					<td th:text="${appointment.status}">Status</td>
+					<td>
+						<form
+							th:action="@{/doctor/appointments/{id}/complete(id=${appointment.id})}"
+							method="post" style="display: inline">
+							<button type="submit" th:disabled="${appointment.status == 'Completed'}">Mark as Completed</button>
+						</form>
+						<form
+							th:action="@{/doctor/appointments/{id}/delete(id=${appointment.id})}"
+							method="post" style="display: inline"
+							onsubmit="return confirm('Are you sure you want to delete this appointment?');">
+							<button type="submit">Delete</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<hr />
+
+	<div>
+		<a th:href="@{/doctor/dashboard}">← Back to Dashboard</a>
+		<a th:href="@{/logout}">Logout</a>
+	</div>
+
+</body>
+</html>
