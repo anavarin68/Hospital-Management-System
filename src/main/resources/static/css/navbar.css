@@ -1,0 +1,104 @@
+/* Navbar Styles */
+.navbar {
+	background-color: #1f3b57;
+	padding: 10px 20px;
+	color: white;
+}
+
+.navbar-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.navbar-brand {
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+}
+
+.navbar-links a {
+	color: white;
+	text-decoration: none;
+	margin-left: 15px;
+	font-size: 15px;
+	padding: 4px 8px;
+	border-radius: 4px;
+	transition: background-color 0.2s ease;
+}
+
+.navbar-links a:hover {
+	background-color: #2e4e6c;
+}
+
+/* Modal Styles */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	justify-content: center;
+	align-items: flex-start;
+	padding-top: 50px;
+}
+
+.modal-content {
+	background-color: #fff;
+	padding: 20px 25px;
+	border-radius: 8px;
+	width: 400px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	position: relative;
+	margin: 0 auto;
+}
+
+.modal-header {
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+	color: #1f3b57;
+	margin-bottom: 15px;
+}
+
+.modal-content p {
+	margin: 8px 0;
+	font-size: 15px;
+	color: #333;
+}
+
+.modal-footer {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.modal-footer button {
+	background-color: #1f3b57;
+	color: white;
+	padding: 8px 16px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.modal-footer button:hover {
+	background-color: #163049;
+}
+
+.close {
+	position: absolute;
+	right: 15px;
+	top: 12px;
+	font-size: 24px;
+	cursor: pointer;
+	color: #888;
+}
+
+.close:hover {
+	color: #000;
+}

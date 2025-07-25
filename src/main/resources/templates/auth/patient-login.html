@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Patient Login</title>
-<link rel="stylesheet" th:href="@{/css/style.css}">
-<link rel="stylesheet" th:href="@{/css/patient.css}">
+	<title>Patient Login</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/patient.css}">
 </head>
 <body class="login-page">
 	<div th:replace="common/navbar :: navbar"></div>
@@ -20,8 +20,9 @@
 					<button type="submit" class="btn-primary">Login</button>
 				</div>	
 			</form>
-
+			
 			<p th:if="${error}" th:text="${error}" style="color: red;"></p>
+			<p th:if="${logoutSuccess}" th:text="${logoutSuccess}" class="logout-success-text"></p>
 
 			<p class="register-link">
 				<a th:href="@{/patient/register}">Not registered? Register here!</a>.

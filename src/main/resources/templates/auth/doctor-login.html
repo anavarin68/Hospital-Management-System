@@ -22,9 +22,10 @@
 					<button type="submit" class="btn-primary">Login</button>
 				</div> 
             </form>
-
-            <p th:if="${error}" th:text="${error}" class="error-msg"></p>
-
+			
+            <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+            <p th:if="${logoutSuccess}" th:text="${logoutSuccess}" class="logout-success-text"></p>            
+			
             <p class="register-link">
                 <a th:href="@{/doctor/register}">Not registered? Register here!</a>
             </p>
