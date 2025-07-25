@@ -1,44 +1,116 @@
 package com.bbd.HospitalManagement.Controller;
 
+import com.bbd.HospitalManagement.Model.AppointmentDetails;
+import com.bbd.HospitalManagement.Model.DoctorDetails;
+import com.bbd.HospitalManagement.Model.UserRole;
+import com.bbd.HospitalManagement.Service.AppointmentService;
+import com.bbd.HospitalManagement.Service.DoctorService;
+
+import jakarta.servlet.http.HttpSession;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import com.bbd.HospitalManagement.Model.DoctorDetails;
-import com.bbd.HospitalManagement.Service.DoctorService;
-
-@RestController
-@RequestMapping("/doctors")
+@Controller
+@RequestMapping("/doctor")
 public class DoctorController {
 
 	@Autowired
-	DoctorService doctorService;
+	private DoctorService doctorService;
+	
+	@Autowired
+	private AppointmentService appointmentService;
 
-	@PostMapping("/add")
-	public DoctorDetails addDoctor(@RequestBody DoctorDetails doctor) {
-		return doctorService.saveDoctor(doctor);
+
+	// GET: Show doctor registration form
+	@GetMapping("/register")
+	public String showRegistrationForm(Model model) {
+		model.addAttribute("doctor", new DoctorDetails());
+		return "auth/doctor-register"; // corresponds to templates/auth/doctor-register.html
 	}
 
-	@GetMapping("/getall")
-	public List<DoctorDetails> getAllDoctors() {
-		return doctorService.getAllDoctors();
+	// POST: Handle doctor registration
+	@PostMapping("/register")
+	public String registerDoctor(@ModelAttribute DoctorDetails doctor, Model model) {
+		doctor.setRole(UserRole.DOCTOR); // set the role explicitly
+		doctorService.registerDoctor(doctor);
+		model.addAttribute("success", "Doctor registered successfully!");
+		return "redirect:/doctor/login";
 	}
 
-	@GetMapping("/get/{id}")
-	public DoctorDetails getDoctorById(@PathVariable("id") Long id) {
-		return doctorService.getDoctorById(id);
+	// GET: Show doctor login form
+	@GetMapping("/login")
+	public String showLoginForm() {
+		return "auth/doctor-login"; // corresponds to templates/auth/doctor-login.html
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public String deleteDoctor(@PathVariable("id") Long id) {
-		doctorService.deleteDoctor(id);
-		return "Doctor deleted with id: " + id;
+	// POST: Handle doctor login
+	@PostMapping("/login")
+	public String loginDoctor(@RequestParam String email, @RequestParam String password, Model model,
+			HttpSession session) {
+		return doctorService.findByEmailAndRole(email, UserRole.DOCTOR)
+				.filter(doc -> doc.getPassword().equals(password)).map(doc -> {
+					session.setAttribute("doctorId", doc.getId()); // Save doctor ID in session
+					return "redirect:/doctor/dashboard";
+				}).orElseGet(() -> {
+					model.addAttribute("error", "Invalid email or password");
+					return "auth/doctor-login";
+				});
 	}
+
+	@GetMapping("/appointments")
+	public String viewDoctorAppointments(Model model, HttpSession session) {
+		Long doctorId = (Long) session.getAttribute("doctorId");
+		if (doctorId == null)
+			return "redirect:/doctor/login";
+
+		List<AppointmentDetails> appointments = appointmentService.getAppointmentsByDoctorId(doctorId);
+		model.addAttribute("appointments", appointments);
+		return "doctor/doctor-view-appointments";
+	}
+
+	@PostMapping("/appointments/{id}/complete")
+	public String markAppointmentCompleted(@PathVariable Long id, HttpSession session) {
+		Long doctorId = (Long) session.getAttribute("doctorId");
+		if (doctorId == null)
+			return "redirect:/doctor/login";
+
+		AppointmentDetails appointment = appointmentService.getAppointmentById(id);
+		if (appointment != null && appointment.getDoctor().getId().equals(doctorId)) {
+			appointment.setStatus("Completed");
+			appointmentService.saveAppointment(appointment);
+		}
+		return "redirect:/doctor/appointments";
+	}
+
+	@PostMapping("/appointments/{id}/delete")
+	public String deleteAppointment(@PathVariable Long id, HttpSession session) {
+		Long doctorId = (Long) session.getAttribute("doctorId");
+		if (doctorId == null)
+			return "redirect:/doctor/login";
+
+		AppointmentDetails appointment = appointmentService.getAppointmentById(id);
+		if (appointment != null && appointment.getDoctor().getId().equals(doctorId)) {
+			appointmentService.deleteAppointment(id);
+		}
+		return "redirect:/doctor/appointments";
+	}
+
+
+	@GetMapping("/dashboard")
+	public String doctorDashboard(HttpSession session, Model model) {
+	    Long doctorId = (Long) session.getAttribute("doctorId");
+	    if (doctorId == null) {
+	        return "redirect:/doctor/login";
+	    }
+
+	    doctorService.getDoctorById(doctorId).ifPresent(doctor -> model.addAttribute("doctor", doctor));
+	    return "doctor/doctor-dashboard"; // templates/doctor/doctor-dashboard.html
+	}
+
+
 }

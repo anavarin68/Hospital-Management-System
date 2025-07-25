@@ -2,12 +2,7 @@ package com.bbd.HospitalManagement.Model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class AppointmentDetails {
@@ -16,14 +11,17 @@ public class AppointmentDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false)
 	private LocalDateTime appointmentDateTime;
+
+	@Column
 	private String status;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private DoctorDetails doctor;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "patient_id", nullable = false)
 	private PatientDetails patient;
 
@@ -67,10 +65,9 @@ public class AppointmentDetails {
 		this.patient = patient;
 	}
 
-	public AppointmentDetails(Long id, LocalDateTime appointmentDateTime, String status, DoctorDetails doctor,
+	public AppointmentDetails(LocalDateTime appointmentDateTime, String status, DoctorDetails doctor,
 			PatientDetails patient) {
 		super();
-		this.id = id;
 		this.appointmentDateTime = appointmentDateTime;
 		this.status = status;
 		this.doctor = doctor;

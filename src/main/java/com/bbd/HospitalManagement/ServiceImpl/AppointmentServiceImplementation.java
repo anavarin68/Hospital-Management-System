@@ -1,13 +1,13 @@
 package com.bbd.HospitalManagement.ServiceImpl;
 
-import java.util.List;
+import com.bbd.HospitalManagement.Model.AppointmentDetails;
+import com.bbd.HospitalManagement.Repository.AppointmentRepository;
+import com.bbd.HospitalManagement.Service.AppointmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bbd.HospitalManagement.Model.AppointmentDetails;
-import com.bbd.HospitalManagement.Repository.AppointmentRepository;
-import com.bbd.HospitalManagement.Service.AppointmentService;
+import java.util.List;
 
 @Service
 public class AppointmentServiceImplementation implements AppointmentService {
@@ -26,12 +26,23 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	}
 
 	@Override
-	public void deleteAppointment(long id) {
+	public AppointmentDetails getAppointmentById(Long id) {
+		return appointmentRepository.findById(id).orElse(null);
+	}
+
+	@Override
+	public void deleteAppointment(Long id) {
 		appointmentRepository.deleteById(id);
 	}
 
 	@Override
-	public AppointmentDetails getAppointmentById(Long id) {
-		return appointmentRepository.findById(id).get();
+	public List<AppointmentDetails> getAppointmentsByPatientId(Long patientId) {
+		return appointmentRepository.findByPatientId(patientId);
 	}
+
+	@Override
+	public List<AppointmentDetails> getAppointmentsByDoctorId(Long doctorId) {
+		return appointmentRepository.findByDoctorId(doctorId);
+	}
+
 }

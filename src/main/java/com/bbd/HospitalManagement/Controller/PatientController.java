@@ -1,44 +1,66 @@
 package com.bbd.HospitalManagement.Controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.bbd.HospitalManagement.Model.PatientDetails;
+import com.bbd.HospitalManagement.Model.UserRole;
 import com.bbd.HospitalManagement.Service.PatientService;
 
-@RestController
-@RequestMapping("/patients")
+import jakarta.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequestMapping("/patient")
 public class PatientController {
-	
+
 	@Autowired
-	PatientService patientService;
-	
-	@PostMapping("/add")
-	public PatientDetails addPatient(@RequestBody PatientDetails patient) {
-		return patientService.savePatient(patient);
-	}
-	
-	@GetMapping("/getall")
-	public List<PatientDetails> getAllPatients() {
-		return patientService.getAllPatients();
+	private PatientService patientService;
+
+	@GetMapping("/register")
+	public String showRegistrationForm(Model model) {
+		model.addAttribute("patient", new PatientDetails());
+		return "auth/patient-register"; // Correct path
 	}
 
-	@GetMapping("/get/{id}")
-	public PatientDetails getPatientById(@PathVariable("id") Long id) {
-		return patientService.getPatientById(id);	
+	@PostMapping("/register")
+	public String registerPatient(@ModelAttribute PatientDetails patient, Model model) {
+		patient.setRole(UserRole.PATIENT); // Set the role
+		patientService.registerPatient(patient);
+		model.addAttribute("success", "Patient registered successfully!");
+		return "redirect:/patient/login";
 	}
-	
-	@DeleteMapping("/delete/{id}")
-	public String deletePatient(@PathVariable("id") Long id) {
-		patientService.deletePatient(id);
-		return "Patient deleted with id: " + id;
+
+	@GetMapping("/login")
+	public String showLoginForm() {
+		return "auth/patient-login"; // matches templates/auth/patient-login.html
 	}
+
+	@PostMapping("/login")
+	public String loginPatient(@RequestParam String email, @RequestParam String password, Model model,
+			HttpSession session) {
+		return patientService.findByEmailAndRole(email, UserRole.PATIENT).filter(p -> p.getPassword().equals(password))
+				.map(p -> {
+					session.setAttribute("patientId", p.getId()); // ✅ store patient ID
+					return "redirect:/patient/dashboard";
+				}).orElseGet(() -> {
+					model.addAttribute("error", "Invalid email or password");
+					return "auth/patient-login";
+				});
+	}
+
+
+
+	@GetMapping("/dashboard")
+	public String patientDashboard(HttpSession session, Model model) {
+	    Long patientId = (Long) session.getAttribute("patientId");
+	    if (patientId == null) return "redirect:/patient/login";
+
+	    patientService.getPatientById(patientId)
+	                  .ifPresent(patient -> model.addAttribute("patient", patient));
+	    
+	    return "patient/patient-dashboard";
+	}
+
 }

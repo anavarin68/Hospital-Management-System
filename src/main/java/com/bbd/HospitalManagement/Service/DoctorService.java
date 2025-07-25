@@ -1,17 +1,21 @@
 package com.bbd.HospitalManagement.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.bbd.HospitalManagement.Model.DoctorDetails;
+import com.bbd.HospitalManagement.Model.UserRole;
 
 public interface DoctorService {
 
-	DoctorDetails saveDoctor(DoctorDetails doctor);
+	Optional<DoctorDetails> findByEmail(String email);
 
-	List<DoctorDetails> getAllDoctors();
+    Optional<DoctorDetails> findByEmailAndRole(String email, UserRole role);
 
-	DoctorDetails getDoctorById(Long id);
+    DoctorDetails registerDoctor(DoctorDetails doctor);
 
-	void deleteDoctor(Long id);
+    List<DoctorDetails> getAllDoctors();
 
+    Optional<DoctorDetails> getDoctorById(Long id);
+   
 }
