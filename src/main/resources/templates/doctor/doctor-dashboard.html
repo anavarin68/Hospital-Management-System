@@ -2,113 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Doctor Dashboard</title>
-    <meta charset="UTF-8">
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 40%;
-            border-radius: 5px;
-            text-align: left;
-        }
-
-        .modal-header {
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .close {
-            float: right;
-            font-size: 22px;
-            font-weight: bold;
-            color: #aaa;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: black;
-        }
-
-        .modal-footer {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .btn {
-            padding: 6px 12px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 <body>
-	<div th:replace="common/navbar :: navbar"></div>
-    <h2>Welcome to Doctor Dashboard</h2>
+    <div th:replace="common/navbar :: navbar"></div>
 
-    <div>
-        <h3>Profile</h3>
-        <button onclick="openModal()">View Profile</button>
-    </div>
+    <div class="dashboard-container">
+        <h2 class="dashboard-title">Welcome to Doctor Dashboard</h2>
 
-    <div>
-        <h3>Appointments</h3>
-        <a th:href="@{/doctor/appointments}">View Appointments</a>
-    </div>
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h3>Appointments</h3>
+                <a th:href="@{/doctor/appointments}">View Appointments</a>
+            </div>
 
-    <div>
-        <h3>Logout</h3>
-        <a th:href="@{/logout}">Logout</a>
-    </div>
-
-    <!-- Modal -->
-    <div id="profileModal" class="modal" th:if="${doctor != null}">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div class="modal-header">Doctor Profile</div>
-
-            <p><strong>ID:</strong> <span th:text="${doctor.id}"></span></p>
-            <p><strong>Name:</strong> <span th:text="${doctor.name}"></span></p>
-			<p><strong>Email:</strong> <span th:text="${doctor.email}"></span></p>
-			<p><strong>Specialization:</strong> <span th:text="${doctor.specialization}"></span></p>
-
-            <div class="modal-footer">
-                <button class="btn" onclick="closeModal()">Close</button>
+            <div class="dashboard-card">
+                <h3>Patients</h3>
+                <a th:href="@{/doctor/patients}">View Patients</a>
             </div>
         </div>
     </div>
-
-	<script>
-		function openModal() {
-			document.getElementById("profileModal").style.display = "block";
-		}
-
-		function closeModal() {
-			document.getElementById("profileModal").style.display = "none";
-		}
-
-		window.onclick = function(event) {
-			let modal = document.getElementById("profileModal");
-			if (event.target === modal) {
-				modal.style.display = "none";
-			}
-		}
-	</script>
-
 </body>
 </html>

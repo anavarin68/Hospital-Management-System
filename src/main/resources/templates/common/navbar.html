@@ -1,34 +1,80 @@
-<!-- templates/common/navbar.html -->
 <div th:fragment="navbar">
-    <nav style="background-color: #2c3e50; color: white; padding: 10px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <a th:href="@{/}" style="color: white; text-decoration: none; font-size: 20px; font-weight: bold;">🏥 Hospital Management</a>
-            </div>
+<link rel="stylesheet" th:href="@{/css/navbar.css}">
 
-            <div>
-                <!-- If NOT logged in -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a th:href="@{/}" class="navbar-brand">🏥 Hospital Management</a>
+
+            <div class="navbar-links">
                 <span th:if="${session.patientId == null and session.doctorId == null}">
-                    <a th:href="@{/patient/login}" style="margin-right: 15px; color: white; text-decoration: none;">Patient Login</a>
-                    <a th:href="@{/doctor/login}" style="margin-right: 15px; color: white; text-decoration: none;">Doctor Login</a>
-                    <a th:href="@{/patient/register}" style="margin-right: 15px; color: white; text-decoration: none;">Patient Register</a>
-                    <a th:href="@{/doctor/register}" style="color: white; text-decoration: none;">Doctor Register</a>
+                    <a th:href="@{/patient/login}">Patient Login</a>
+                    <a th:href="@{/doctor/login}">Doctor Login</a>
+                    <a th:href="@{/patient/register}">Patient Register</a>
+                    <a th:href="@{/doctor/register}">Doctor Register</a>
                 </span>
 
-                <!-- If Patient is logged in -->
                 <span th:if="${session.patientId != null}">
-                    <a th:href="@{/patient/dashboard}" style="margin-right: 15px; color: white; text-decoration: none;">Dashboard</a>
-                    <a th:href="@{/patient/profile}" style="margin-right: 15px; color: white; text-decoration: none;">Profile</a>
-                    <a th:href="@{/logout}" style="color: white; text-decoration: none;">Logout</a>
+                    <a th:href="@{/patient/dashboard}">Dashboard</a>
+                    <a href="#" onclick="openModal()">Profile</a>
+                    <a th:href="@{/logout}">Logout</a>
                 </span>
 
-                <!-- If Doctor is logged in -->
                 <span th:if="${session.doctorId != null}">
-                    <a th:href="@{/doctor/dashboard}" style="margin-right: 15px; color: white; text-decoration: none;">Dashboard</a>
-                    <a th:href="@{/doctor/profile}" style="margin-right: 15px; color: white; text-decoration: none;">Profile</a>
-                    <a th:href="@{/logout}" style="color: white; text-decoration: none;">Logout</a>
+                    <a th:href="@{/doctor/dashboard}">Dashboard</a>
+                    <a href="#" onclick="openModal()">Profile</a>
+                    <a th:href="@{/logout}">Logout</a>
                 </span>
             </div>
         </div>
     </nav>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>👤 Profile Details</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+
+            <!-- Patient Info -->
+            <div th:if="${patient != null}">
+                <p><strong>ID:</strong> <span th:text="${patient.id}"></span></p>
+                <p><strong>Name:</strong> <span th:text="${patient.name}"></span></p>
+                <p><strong>Email:</strong> <span th:text="${patient.email}"></span></p>
+                <p><strong>Age:</strong> <span th:text="${patient.age}"></span></p>
+                <p><strong>Gender:</strong> <span th:text="${patient.gender}"></span></p>
+                <p><strong>Phone:</strong> <span th:text="${patient.contact}"></span></p>
+            </div>
+
+            <!-- Doctor Info -->
+           	<div th:if="${doctor != null}">
+                <p><strong>ID:</strong> <span th:text="${doctor.id}"></span></p>
+                <p><strong>Name:</strong> <span th:text="${doctor.name}"></span></p>
+                <p><strong>Email:</strong> <span th:text="${doctor.email}"></span></p>
+                <p><strong>Specialization:</strong> <span th:text="${doctor.specialization}"></span></p>
+                <p><strong>Phone:</strong> <span th:text="${doctor.contact}"></span></p>
+            </div>
+
+            <div class="modal-footer">
+                <button onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById("profileModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("profileModal").style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            let modal = document.getElementById("profileModal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
 </div>

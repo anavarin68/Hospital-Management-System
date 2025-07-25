@@ -2,33 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Doctor Registration</title>
-    
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/doctor.css}">
 </head>
-<body>
-	<div th:replace="common/navbar :: navbar"></div>
-    <h2>Register as Doctor</h2>
+<body class="login-page">
 
-    <form th:action="@{/doctor/register}" th:object="${doctor}" method="post">
-        <label>Name:</label>
-        <input type="text" th:field="*{name}" required/><br/>
+    <div th:replace="common/navbar :: navbar"></div>
 
-        <label>Specialization:</label>
-        <input type="text" th:field="*{specialization}" required/><br/>
+    <div class="page-container">
+        <div class="form-box">
+            <h2>Doctor Registration</h2>
 
-        <label>Contact:</label>
-        <input type="tel" th:field="*{contact}" pattern="[0-9]{10}" placeholder="10-digit number" maxlength="10" required/><br/>
+            <form th:action="@{/doctor/register}" th:object="${doctor}" method="post" class="login-form">
+                <label for="name">Name</label>
+                <input type="text" th:field="*{name}" id="name" placeholder="Your full name" required/>
 
-        <label>Email:</label>
-        <input type="email" th:field="*{email}" required/><br/>
+                <label for="specialization">Specialization</label>
+                <input type="text" th:field="*{specialization}" id="specialization" placeholder="Your specialization" required/>
 
-        <label>Password:</label>
-        <input type="password" th:field="*{password}" required/><br/>
+                <label for="contact">Phone Number</label>
+                <input type="tel" th:field="*{contact}" id="contact"
+                       pattern="[0-9]{10}" maxlength="10" placeholder="10-digit number" required/>
 
-        <button type="submit">Register</button>
-    </form>
+                <label for="email">Email</label>
+                <input type="email" th:field="*{email}" id="email" placeholder="you@example.com" required/>
 
-    <p th:if="${success}" th:text="${success}" style="color: green;"></p>
+                <label for="password">Password</label>
+                <input type="password" th:field="*{password}" id="password" placeholder="Choose a strong password" required/>
 
-    <p><a th:href="@{/doctor/login}">Already registered? Login here</a></p>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">Register</button>
+                    <button type="reset" class="btn-secondary">Reset</button>
+                </div>
+            </form>
+
+            <p th:if="${success}" th:text="${success}" class="success-msg"></p>
+
+            <p class="register-link">
+                <a th:href="@{/doctor/login}">Already registered? Login here</a>
+            </p>
+        </div>
+    </div>
+
 </body>
 </html>

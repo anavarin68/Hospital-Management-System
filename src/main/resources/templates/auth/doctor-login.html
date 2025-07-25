@@ -2,23 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Doctor Login</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/doctor.css}">
 </head>
-<body>
-	<div th:replace="common/navbar :: navbar"></div>
-    <h2>Doctor Login</h2>
+<body class="login-page">
+    <div th:replace="common/navbar :: navbar"></div>
 
-    <form th:action="@{/doctor/login}" method="post">
-        <label>Email:</label>
-        <input type="email" name="email" required/><br/>
+    <div class="page-container">
+        <div class="form-box">
+            <h2>Doctor Login</h2>
 
-        <label>Password:</label>
-        <input type="password" name="password" required/><br/>
+            <form th:action="@{/doctor/login}" method="post" class="login-form">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required/>
 
-        <button type="submit">Login</button>
-    </form>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required/>
+				<div class="form-buttons">
+					<button type="submit" class="btn-primary">Login</button>
+				</div> 
+            </form>
 
-    <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+            <p th:if="${error}" th:text="${error}" class="error-msg"></p>
 
-    <p><a th:href="@{/doctor/register}">Not registered? Sign up here</a></p>
+            <p class="register-link">
+                <a th:href="@{/doctor/register}">Not registered? Register here!</a>
+            </p>
+        </div>
+    </div>
 </body>
 </html>

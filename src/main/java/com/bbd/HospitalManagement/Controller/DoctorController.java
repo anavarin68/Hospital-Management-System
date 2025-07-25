@@ -102,7 +102,21 @@ public class DoctorController {
 		}
 		return "redirect:/doctor/appointments";
 	}
+	
+	//View Patients
+	@GetMapping("/patients")
+	public String viewPatients(Model model, HttpSession session) {
+	    Long doctorId = (Long) session.getAttribute("doctorId");
+	    if (doctorId == null)
+	        return "redirect:/doctor/login";
 
+	    List<AppointmentDetails> appointments = appointmentService.getAppointmentsByDoctorId(doctorId);
+	    model.addAttribute("appointments", appointments);
+	    return "doctor/doctor-patients";
+	}
+
+
+	
 	//Doctor Dashboard
 	@GetMapping("/dashboard")
 	public String doctorDashboard(HttpSession session, Model model) {
@@ -114,4 +128,6 @@ public class DoctorController {
 	    doctorService.getDoctorById(doctorId).ifPresent(doctor -> model.addAttribute("doctor", doctor));
 	    return "doctor/doctor-dashboard"; // templates/doctor/doctor-dashboard.html
 	}
+	
+	
 }
