@@ -7,42 +7,42 @@
 </head>
 <body class="login-page">
 
-    <div th:replace="common/navbar :: navbar"></div>
+<div th:replace="common/navbar :: navbar"></div>
 
-    <div class="page-container">
-        <div class="form-box">
-            <h2>Doctor Registration</h2>
+<div class="page-container">
+    <div class="form-box">
+        <h2>Doctor Registration</h2>
 
-            <form th:action="@{/doctor/register}" th:object="${doctor}" method="post" class="login-form">
-                <label for="name">Name</label>
-                <input type="text" th:field="*{name}" id="name" placeholder="Your full name" required/>
+        <form th:action="@{/doctor/register}" th:object="${doctor}" method="post" class="login-form">
+            <label for="name">Name</label>
+            <input type="text" th:field="*{name}" id="name" placeholder="Your full name" required/>
 
-                <label for="specialization">Specialization</label>
-                <input type="text" th:field="*{specialization}" id="specialization" placeholder="Your specialization" required/>
+            <label for="specialization">Specialization</label>
+            <input type="text" th:field="*{specialization}" id="specialization" placeholder="Your specialization" required/>
 
-                <label for="contact">Phone Number</label>
-                <input type="tel" th:field="*{contact}" id="contact"
-                       pattern="[0-9]{10}" maxlength="10" placeholder="10-digit number" required/>
+            <label for="contact">Phone Number</label>
+            <input type="tel" th:field="*{contact}" id="contact"
+                   pattern="[0-9]{10}" maxlength="10" placeholder="10-digit number" required/>
 
-                <label for="email">Email</label>
-                <input type="email" th:field="*{email}" id="email" placeholder="you@example.com" required/>
+            <label for="email">Email</label>
+            <input type="email" th:field="*{email}" id="email" placeholder="you@example.com" required/>
 
-                <label for="password">Password</label>
-                <input type="password" th:field="*{password}" id="password" placeholder="Choose a strong password" required/>
+            <label for="password">Password</label>
+            <input type="password" th:field="*{password}" id="password" placeholder="Choose a strong password" required/>
 
-                <div class="form-buttons">
-                    <button type="submit" class="btn-primary">Register</button>
-                    <button type="reset" class="btn-secondary">Reset</button>
-                </div>
-            </form>
+            <div class="form-buttons">
+                <button type="submit" class="btn-primary">Register</button>
+                <button type="reset" class="btn-secondary">Reset</button>
+            </div>
+        </form>
 
-            <p th:if="${success}" th:text="${success}" class="success-msg"></p>
+        <p th:if="${success}" th:text="${success}" class="success-msg"></p>
 
-            <p class="register-link">
-                <a th:href="@{/doctor/login}">Already registered? Login here</a>
-            </p>
-        </div>
+        <p class="register-link">
+            <a th:href="@{/doctor/login}">Already registered? Login here</a>
+        </p>
     </div>
+</div>
 
 </body>
 </html>

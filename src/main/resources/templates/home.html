@@ -5,24 +5,33 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-    <div th:replace="common/navbar :: navbar"></div>
+<div th:replace="common/navbar :: navbar"></div>
 
-    <div class="home-container">
-        <h1>Welcome to the Hospital Management System</h1>
-        <p>Please choose your role to continue:</p>
+<div class="home-container">
+    <h1>Welcome to Hospital Management</h1>
+    <p>Click on your desired role to continue further:</p>
 
+    <div class="role-container">
         <div class="role-box">
-            <h2>👨‍⚕️ Doctor</h2>
-            <a th:href="@{/doctor/register}">Register</a>
-            <a th:href="@{/doctor/login}">Login</a>
+            <img th:src="@{images/doctor.png}" alt="Doctor Icon" class="role-icon" width="50px"/>
+
+            <div class="role-content">
+                <h2>Continue as DOCTOR</h2>
+                <a th:href="@{/doctor/register}">Register</a>
+                <a th:href="@{/doctor/login}">Login</a>
+            </div>
         </div>
 
         <div class="role-box">
-            <h2>🧑‍🦽 Patient</h2>
-            <a th:href="@{/patient/register}">Register</a>
-            <a th:href="@{/patient/login}">Login</a>
+            <img th:src="@{images/patient.png}" alt="Patient Icon" class="role-icon" width="50px">
+            <div class="role-content">
+                <h2>Continue as PATIENT</h2>
+                <a th:href="@{/patient/register}">Register</a>
+                <a th:href="@{/patient/login}">Login</a>
+            </div>
         </div>
     </div>
+</div>
 </body>
 
 </html>

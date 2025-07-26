@@ -6,30 +6,30 @@
     <link rel="stylesheet" th:href="@{/css/doctor.css}">
 </head>
 <body class="login-page">
-    <div th:replace="common/navbar :: navbar"></div>
+<div th:replace="common/navbar :: navbar"></div>
 
-    <div class="page-container">
-        <div class="form-box">
-            <h2>Doctor Login</h2>
+<div class="page-container">
+    <div class="form-box">
+        <h2>Doctor Login</h2>
 
-            <form th:action="@{/doctor/login}" method="post" class="login-form">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required/>
+        <form th:action="@{/doctor/login}" method="post" class="login-form">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required/>
 
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required/>
-				<div class="form-buttons">
-					<button type="submit" class="btn-primary">Login</button>
-				</div> 
-            </form>
-			
-            <p th:if="${error}" th:text="${error}" style="color: red;"></p>
-            <p th:if="${logoutSuccess}" th:text="${logoutSuccess}" class="logout-success-text"></p>            
-			
-            <p class="register-link">
-                <a th:href="@{/doctor/register}">Not registered? Register here!</a>
-            </p>
-        </div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required/>
+            <div class="form-buttons">
+                <button type="submit" class="btn-primary">Login</button>
+            </div>
+        </form>
+
+        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+        <p th:if="${logoutSuccess}" th:text="${logoutSuccess}" class="logout-success-text"></p>
+
+        <p class="register-link">
+            <a th:href="@{/doctor/register}">Not registered? Register here!</a>
+        </p>
     </div>
+</div>
 </body>
 </html>

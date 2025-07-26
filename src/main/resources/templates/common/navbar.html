@@ -1,5 +1,5 @@
 <div th:fragment="navbar">
-<link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
 
     <nav class="navbar">
         <div class="navbar-container">
@@ -47,7 +47,7 @@
             </div>
 
             <!-- Doctor Info -->
-           	<div th:if="${doctor != null}">
+            <div th:if="${doctor != null}">
                 <p><strong>ID:</strong> <span th:text="${doctor.id}"></span></p>
                 <p><strong>Name:</strong> <span th:text="${doctor.name}"></span></p>
                 <p><strong>Email:</strong> <span th:text="${doctor.email}"></span></p>
