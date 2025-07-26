@@ -12,6 +12,35 @@
         <h2>Welcome to Patient Dashboard</h2>
 
         <div class="dashboard-cards">
+            <!DOCTYPE html>
+            <html xmlns:th="http://www.thymeleaf.org">
+            <head>
+                <title>Patient Dashboard</title>
+                <link rel="stylesheet" th:href="@{/css/style.css}">
+                <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+            </head>
+            <body>
+            <div th:replace="common/navbar :: navbar"></div>
+
+            <div class="dashboard-container">
+                <h2>Welcome to Patient Dashboard</h2>
+
+                <div class="dashboard-cards">
+                    <div class="dashboard-card">
+                        <h3>📅 Book an appointment with the Doctor</h3>
+                        <a th:href="@{/appointments/new}">New Appointment</a>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>📝 View your scheduled appointments</h3>
+                        <a th:href="@{/appointments/patient}">View History</a>
+                    </div>
+                </div>
+            </div>
+            </body>
+
+
+            </html>
             <div class="dashboard-card">
                 <h3>📅 Book Appointment</h3>
                 <a th:href="@{/appointments/new}">New Appointment</a>
