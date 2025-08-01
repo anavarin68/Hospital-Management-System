@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Patient Registration</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/doctor.css}">
+</head>
+<body class="login-page">
+
+<div th:replace="common/navbar :: navbar"></div>
+<div class="page-container">
+	<div class="form-box">
+		<h2>Patient Registration</h2>
+
+		<form th:action="@{/admin/patients/add}" th:object="${patient}" method="post" class="login-form">
+
+			<label for="name">Name</label>
+			<input type="text" th:field="*{name}" id="name" placeholder="Your full name" required />
+
+			<label for="gender">Gender</label>
+			<select th:field="*{gender}" id="gender" required>
+				<option value="">-- Select Gender --</option>
+				<option value="Male">Male</option>
+				<option value="Female">Female</option>
+				<option value="Other">Other</option>
+			</select>
+
+			<div style="display: flex; align-items: center; gap: 10px;">
+				<label for="age" style="vertical-align: top;">Age</label>
+				<input type="number" th:field="*{age}" id="age" min="1" max="120" placeholder="Your age" style="width: 70px; padding-top: 2px; margin-top: 2px;" required />
+			</div>
+
+			<label for="contact">Phone Number</label>
+			<input type="tel" th:field="*{contact}" id="contact"
+				   pattern="[0-9]{10}" maxlength="10" placeholder="10-digit number" required />
+
+			<label for="email">Email</label>
+			<input type="email" th:field="*{email}" id="email" placeholder="you@example.com" required />
+
+			<label for="password">Password</label>
+			<input type="password" th:field="*{password}" id="password" placeholder="Choose a strong password" required />
+
+			<div class="form-buttons">
+				<button type="submit" class="btn-primary">Register</button>
+				<button type="reset" class="btn-secondary">Reset</button>
+			</div>
+		</form>
+
+		<p th:if="${success}" th:text="${success}" style="color: green;"></p>
+
+		<p class="register-link">
+            <a th:href="@{/admin/patients}">Back to Patient List</a>
+        </p>
+	</div>
+</div>
+
+</body>
+</html>

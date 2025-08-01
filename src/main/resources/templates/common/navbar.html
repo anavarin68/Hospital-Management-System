@@ -6,21 +6,26 @@
             <a th:href="@{/}" class="navbar-brand">🏥 Hospital Management</a>
 
             <div class="navbar-links">
-                <span th:if="${session.patientId == null and session.doctorId == null}">
+                <!-- Not logged in -->
+                <span th:if="${session.patientId == null and session.doctorId == null and session.adminName == null}">
                     <a th:href="@{/patient/login}">Patient Login</a>
                     <a th:href="@{/doctor/login}">Doctor Login</a>
-                    <a th:href="@{/patient/register}">Patient Register</a>
-                    <a th:href="@{/doctor/register}">Doctor Register</a>
+                    <a th:href="@{/admin/login}">Admin Login</a>
                 </span>
 
+                <!-- Admin -->
+                <span th:if="${session.adminName}">
+                    <a th:href="@{/logout}">Logout</a>
+                </span>
+
+                <!-- Patient -->
                 <span th:if="${session.patientId != null}">
-                    <a th:href="@{/patient/dashboard}">Dashboard</a>
                     <a href="#" onclick="openModal()">Profile</a>
                     <a th:href="@{/logout}">Logout</a>
                 </span>
 
+                <!-- Doctor -->
                 <span th:if="${session.doctorId != null}">
-                    <a th:href="@{/doctor/dashboard}">Dashboard</a>
                     <a href="#" onclick="openModal()">Profile</a>
                     <a th:href="@{/logout}">Logout</a>
                 </span>
@@ -28,7 +33,7 @@
         </div>
     </nav>
 
-    <!-- Profile Modal -->
+    <!-- 🔽 Shared Profile Modal -->
     <div id="profileModal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
@@ -37,7 +42,7 @@
             </div>
 
             <!-- Patient Info -->
-            <div th:if="${patient != null}">
+            <div id="patientInfo" th:if="${patient != null}">
                 <p><strong>ID:</strong> <span th:text="${patient.id}"></span></p>
                 <p><strong>Name:</strong> <span th:text="${patient.name}"></span></p>
                 <p><strong>Email:</strong> <span th:text="${patient.email}"></span></p>
@@ -47,12 +52,22 @@
             </div>
 
             <!-- Doctor Info -->
-            <div th:if="${doctor != null}">
+            <div id="doctorInfo" th:if="${doctor != null}">
                 <p><strong>ID:</strong> <span th:text="${doctor.id}"></span></p>
                 <p><strong>Name:</strong> <span th:text="${doctor.name}"></span></p>
                 <p><strong>Email:</strong> <span th:text="${doctor.email}"></span></p>
                 <p><strong>Specialization:</strong> <span th:text="${doctor.specialization}"></span></p>
                 <p><strong>Phone:</strong> <span th:text="${doctor.contact}"></span></p>
+            </div>
+
+            <!-- JS-filled content for admin views -->
+            <div id="dynamicContent" style="display: none;">
+                <p><strong>Name:</strong> <span id="modalName"></span></p>
+                <p id="modalAgeGroup" style="display: none;"><strong>Age:</strong> <span id="modalAge"></span></p>
+                <p id="modalGenderGroup" style="display: none;"><strong>Gender:</strong> <span id="modalGender"></span></p>
+                <p id="modalSpecializationGroup" style="display: none;"><strong>Specialization:</strong> <span id="modalSpecialization"></span></p>
+                <p><strong>Contact:</strong> <span id="modalContact"></span></p>
+                <p><strong>Email:</strong> <span id="modalEmail"></span></p>
             </div>
 
             <div class="modal-footer">
@@ -61,6 +76,7 @@
         </div>
     </div>
 
+    <!-- 🔽 Modal Script -->
     <script>
         function openModal() {
             document.getElementById("profileModal").style.display = "flex";
@@ -70,11 +86,49 @@
             document.getElementById("profileModal").style.display = "none";
         }
 
+        // For admin view - dynamic modal from data attributes
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.view-button');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const role = button.dataset.role;
+
+                    const name = button.dataset.name;
+                    const email = button.dataset.email;
+                    const contact = button.dataset.contact;
+                    const age = button.dataset.age;
+                    const gender = button.dataset.gender;
+                    const specialization = button.dataset.specialization;
+
+                    // Hide static profile sections
+                    document.getElementById('patientInfo')?.classList.add('hidden');
+                    document.getElementById('doctorInfo')?.classList.add('hidden');
+
+                    // Fill dynamic section
+                    document.getElementById('dynamicContent').style.display = 'block';
+                    document.getElementById('modalName').innerText = name;
+                    document.getElementById('modalEmail').innerText = email;
+                    document.getElementById('modalContact').innerText = contact;
+
+                    // Toggle optional fields
+                    document.getElementById('modalAgeGroup').style.display = age ? 'block' : 'none';
+                    document.getElementById('modalGenderGroup').style.display = gender ? 'block' : 'none';
+                    document.getElementById('modalSpecializationGroup').style.display = specialization ? 'block' : 'none';
+
+                    if (age) document.getElementById('modalAge').innerText = age;
+                    if (gender) document.getElementById('modalGender').innerText = gender;
+                    if (specialization) document.getElementById('modalSpecialization').innerText = specialization;
+
+                    openModal();
+                });
+            });
+        });
+
+        // Close modal on outside click
         window.onclick = function (event) {
             let modal = document.getElementById("profileModal");
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
+            if (event.target === modal) closeModal();
+        };
     </script>
 </div>

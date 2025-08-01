@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Appointments</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+	<div th:replace="common/navbar :: navbar"></div>
+
+	<div class="dashboard-container">
+		<h2 class="dashboard-title">All Appointments</h2>
+
+		<!-- Search & Filter Form -->
+		<div class="form-box">
+			<form th:action="@{/admin/appointments/search}" method="get"
+				class="filter-form">
+				<label for="doctorName">Doctor Name:</label> <input type="text"
+					id="doctorName" name="doctorName" placeholder="Enter doctor name" />
+
+				<label for="patientName">Patient Name:</label> <input type="text"
+					id="patientName" name="patientName"
+					placeholder="Enter patient name" /> <label for="date">Date:</label>
+				<input type="date" id="date" name="date" />
+
+				<button type="submit" class="btn-primary">Search</button>
+			</form>
+		</div>
+
+		<!-- Appointments Table -->
+		<table class="styled-table">
+			<thead>
+				<tr>
+					<th>Appointment ID</th>
+					<th>Doctor</th>
+					<th>Patient</th>
+					<th>Date & Time</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="appt : ${appointments}">
+					<td th:text="${appt.id}"></td>
+					<td th:text="${appt.doctor.name}"></td>
+					<td th:text="${appt.patient.name}"></td>
+					<td
+						th:text="${#temporals.format(appt.appointmentDateTime, 'yyyy-MM-dd HH:mm')}"></td>
+					<td th:text="${appt.status}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<p class="register-link">
+		<a th:href="@{/admin/admin-dashboard}">Back to Dashboard</a>
+	</p>
+</body>
+</html>

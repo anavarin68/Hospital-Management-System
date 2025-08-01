@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Doctor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+</head>
+<body>
+<div th:replace="common/navbar :: navbar"></div>
+
+<div class="page-container">
+    <div class="form-box">
+        <h2>Edit Doctor Details</h2>
+
+        <form th:action="@{'/admin/doctors/update/' + ${doctor.id}}" th:object="${doctor}" method="post">
+
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" th:field="*{name}" required />
+            
+            <label for="email">Email:</label>
+			<input type="email" id="email" th:field="*{email}" required />
+            
+            <label for="specialization">Specialization:</label>
+            <input type="text" id="specialization" th:field="*{specialization}" required />
+
+            <label for="contact">Contact Number:</label>
+            <input type="text" id="contact" th:field="*{contact}" required />
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}" required />
+
+            <div class="form-buttons">
+   				 <button type="submit" class="btn-primary">Update</button>
+    			 <a th:href="@{/admin/doctors}" class="btn-secondary">Cancel</a>
+			</div>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

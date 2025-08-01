@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Admin Login</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/doctor.css}">
+</head>
+<body class="login-page">
+
+	<div th:replace="common/navbar :: navbar"></div>
+
+	<div class="page-container">
+		<div class="form-box">
+			<h2>Admin Login</h2>
+
+			<form th:action="@{/admin/login}" method="post">
+				<label for="name">Username:</label> <input type="text" name="name"
+					required><br>
+				<br> <label for="password">Password:</label> <input
+					type="password" name="password" required><br>
+				<br>
+				<div class="form-buttons">
+                	<button type="submit" class="btn-primary">Login</button>
+            	</div>
+			</form>
+
+			<p th:if="${error}" style="color: red;" th:text="${error}"></p>
+			<p th:if="${logoutSuccess}" th:text="${logoutSuccess}"
+				class="logout-success-text"></p>
+
+		</div>
+	</div>
+</body>
+</html>

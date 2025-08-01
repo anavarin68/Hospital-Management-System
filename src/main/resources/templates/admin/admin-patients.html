@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Manage Patients</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+	<div th:replace="common/navbar :: navbar"></div>
+
+	<div class="container">
+		<h2>Manage Patients</h2>
+
+		<div class="search-container">
+			<form method="get" action="/admin/patients">
+				Search by Name or Email: <input type="text" name="keyword" />
+				<button type="submit">Search</button> 
+				<a th:href="@{/admin/patients/add}">
+    				<button type="button">Add Patient</button>
+				</a>
+			</form>
+
+			<table border="1" cellpadding="5">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="patient : ${patients}">
+						<td th:text="${patient.name}"></td>
+						<td th:text="${patient.email}"></td>
+						<td>
+							<button type="button" class="view-button"
+								th:attr="data-name=${patient.name}, data-age=${patient.age}, data-gender=${patient.gender}, data-contact=${patient.contact}, data-email=${patient.email}">
+								View</button>
+							
+							<a th:href="@{'/admin/patients/edit/' + ${patient.id}}">
+    							<button type="button">Edit</button></a>
+   							<a th:href="@{'/admin/patients/delete/' + ${patient.id}}"
+   								onclick="return confirm('Are you sure you want to delete this patient')" class="btn btn-danger">
+  							 	<button type="button">Delete</button></a>
+					</tr>
+				</tbody>
+			</table>
+
+			<p class="register-link">
+				<a th:href="@{/admin/admin-dashboard}">Back to Dashboard</a>
+			</p>
+		</div>
+	</div>
+</body>
+</html>
