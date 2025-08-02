@@ -7,6 +7,8 @@ import com.bbd.HospitalManagement.Service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,34 +47,54 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	public List<AppointmentDetails> getAppointmentsByDoctorId(Long doctorId) {
 		return appointmentRepository.findByDoctorId(doctorId);
 	}
+	
+	private LocalDate parseDate(String dateStr) {
+	    try {
+	        return (dateStr != null) ? LocalDate.parse(dateStr) : null;
+	    } catch (Exception e) {
+	        return null;
+	    }
+	}
+
+	private LocalTime parseTime(String timeStr) {
+	    try {
+	        return (timeStr != null) ? LocalTime.parse(timeStr) : null;
+	    } catch (Exception e) {
+	        return null;
+	    }
+	}
 
 	@Override
-	public List<AppointmentDetails> searchAppointments(String doctorName, String patientName, String date,
-			String time) {
-		return appointmentRepository.findAll().stream().filter(appointment -> {
-			String status = appointment.getStatus();
-			return status != null && (status.equalsIgnoreCase("pending") || status.equalsIgnoreCase("completed"));
-		}).filter(appointment -> doctorName == null
-				|| appointment.getDoctor().getName().toLowerCase().contains(doctorName.toLowerCase()))
-				.filter(appointment -> patientName == null
-						|| appointment.getPatient().getName().toLowerCase().contains(patientName.toLowerCase()))
-				.filter(appointment -> {
-					if (date == null)
-						return true;
-					try {
-						return appointment.getAppointmentDateTime().toLocalDate().toString().equals(date);
-					} catch (Exception e) {
-						return false;
-					}
-				}).filter(appointment -> {
-					if (time == null)
-						return true;
-					try {
-						return appointment.getAppointmentDateTime().toLocalTime().toString().equals(time);
-					} catch (Exception e) {
-						return false;
-					}
-				}).collect(Collectors.toList());
+	public List<AppointmentDetails> searchAppointments(String doctorName, String patientName, String date, String time) {
+	    return appointmentRepository.findAll().stream()
+	        .filter(appointment -> {
+	            String status = appointment.getStatus();
+	            return status != null && (status.equalsIgnoreCase("pending") || status.equalsIgnoreCase("completed"));
+	        })
+	        .filter(appointment -> doctorName == null ||
+	            appointment.getDoctor().getName().toLowerCase().contains(doctorName.toLowerCase()))
+	        .filter(appointment -> patientName == null ||
+	            appointment.getPatient().getName().toLowerCase().contains(patientName.toLowerCase()))
+	        .filter(appointment -> {
+	            if (date == null) return true;
+	            try {
+	                return appointment.getDate() != null &&
+	                       appointment.getDate().toString().equals(date); // date format: yyyy-MM-dd
+	            } catch (Exception e) {
+	                return false;
+	            }
+	        })
+	        .filter(appointment -> {
+	            if (time == null) return true;
+	            try {
+	                return appointment.getTime() != null &&
+	                       appointment.getTime().toString().equals(time); // time format: HH:mm
+	            } catch (Exception e) {
+	                return false;
+	            }
+	        })
+	        .collect(Collectors.toList());
 	}
+
 
 }

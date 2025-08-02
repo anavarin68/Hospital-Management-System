@@ -1,5 +1,7 @@
 package com.bbd.HospitalManagement.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,12 +18,18 @@ public interface AppointmentRepository extends JpaRepository<AppointmentDetails,
 
 	List<AppointmentDetails> findByDoctorId(Long doctorId);
 
-	@Query("SELECT a FROM AppointmentDetails a "
-			+ "WHERE (:doctorName IS NULL OR LOWER(a.doctor.name) LIKE LOWER(CONCAT('%', :doctorName, '%'))) "
-			+ "AND (:patientName IS NULL OR LOWER(a.patient.name) LIKE LOWER(CONCAT('%', :patientName, '%'))) "
-			+ "AND (:date IS NULL OR FUNCTION('DATE', a.appointmentDateTime) = :date) "
-			+ "AND (:time IS NULL OR FUNCTION('TIME', a.appointmentDateTime) = :time)")
-	
-	List<AppointmentDetails> searchAppointments(@Param("doctorName") String doctorName,
-			@Param("patientName") String patientName, @Param("date") String date, @Param("time") String time);
+	@Query(value = "SELECT * FROM appointment_details a " +
+		       "JOIN doctor_details d ON a.doctor_id = d.id " +
+		       "JOIN patient_details p ON a.patient_id = p.id " +
+		       "WHERE (:doctorName IS NULL OR LOWER(d.name) LIKE LOWER(CONCAT('%', :doctorName, '%'))) " +
+		       "AND (:patientName IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :patientName, '%'))) " +
+		       "AND (:date IS NULL OR DATE(a.appointment_date_time) = :date) " +
+		       "AND (:time IS NULL OR TIME(a.appointment_date_time) = :time)",
+		       nativeQuery = true)
+		List<AppointmentDetails> searchAppointments(
+		    @Param("doctorName") String doctorName,
+		    @Param("patientName") String patientName,
+		    @Param("date") LocalDate date,
+		    @Param("time") LocalTime time);
+
 }

@@ -15,7 +15,8 @@
         <tr>
             <th>ID</th>
             <th>Doctor</th>
-            <th>Date & Time</th>
+            <th>Date</th>
+            <th>Time</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
@@ -24,7 +25,8 @@
         <tr th:each="appointment : ${appointments}">
             <td th:text="${appointment.id}"></td>
             <td th:text="${appointment.doctor.name}"></td>
-            <td th:text="${#temporals.format(appointment.appointmentDateTime, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${appointment.date}"></td>
+    		<td th:text="${appointment.time}"></td>
             <td th:text="${appointment.status}"></td>
             <td>
                 <form th:action="@{/appointments/delete/{id}(id=${appointment.id})}" method="post"

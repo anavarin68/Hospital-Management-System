@@ -1,6 +1,7 @@
 package com.bbd.HospitalManagement.Model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.*;
 
@@ -12,7 +13,10 @@ public class AppointmentDetails {
 	private Long id;
 
 	@Column(nullable = false)
-	private LocalDateTime appointmentDateTime;
+	private LocalDate date;
+
+	@Column(nullable = false)
+	private LocalTime time;
 
 	@Column
 	private String status;
@@ -33,12 +37,20 @@ public class AppointmentDetails {
 		this.id = id;
 	}
 
-	public LocalDateTime getAppointmentDateTime() {
-		return appointmentDateTime;
+	public LocalDate getDate() {
+		return date;
 	}
 
-	public void setAppointmentDateTime(LocalDateTime appointmentDateTime) {
-		this.appointmentDateTime = appointmentDateTime;
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public LocalTime getTime() {
+		return time;
+	}
+
+	public void setTime(LocalTime time) {
+		this.time = time;
 	}
 
 	public String getStatus() {
@@ -64,11 +76,11 @@ public class AppointmentDetails {
 	public void setPatient(PatientDetails patient) {
 		this.patient = patient;
 	}
-
-	public AppointmentDetails(LocalDateTime appointmentDateTime, String status, DoctorDetails doctor,
-			PatientDetails patient) {
+	
+	public AppointmentDetails(LocalDate date, LocalTime time, String status, DoctorDetails doctor, PatientDetails patient) {
 		super();
-		this.appointmentDateTime = appointmentDateTime;
+		this.date = date;
+		this.time = time;
 		this.status = status;
 		this.doctor = doctor;
 		this.patient = patient;

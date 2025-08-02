@@ -143,3 +143,54 @@ body {
 .back-link:hover {
 	text-decoration: underline;
 }
+
+/* Appointment Time */
+input[type="time"] {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #333;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inline-field {
+	display: flex;
+	align-items: center;
+	gap: 6px; /* reduced horizontal gap */
+	margin-bottom: 12px; /* reduced vertical spacing */
+}
+
+.inline-field label {
+	width: 150px;
+	margin-bottom: 0;
+	line-height: 38px;
+}
+
+.inline-field select {
+	width: 250px;
+}
+
+.inline-field input[type="date"],
+.inline-field input[type="text"] {
+	 width: 150px;
+}
+
+.inline-field input#time {
+	width: 140px;
+}
+
+.flatpickr-calendar {
+    font-size: 13px; /* Shrinks overall size */
+    width: auto !important; /* Let content dictate width */
+    min-width: 160px !important; /* Optional: reduce min-width */
+}
+
+.flatpickr-time {
+    font-size: 13px;
+    padding: 4px;
+}

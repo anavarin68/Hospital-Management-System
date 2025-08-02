@@ -20,7 +20,9 @@
 
 				<label for="patientName">Patient Name:</label> <input type="text"
 					id="patientName" name="patientName"
-					placeholder="Enter patient name" /> <label for="date">Date:</label>
+					placeholder="Enter patient name" />
+				
+				<label for="date">Date:</label>
 				<input type="date" id="date" name="date" />
 
 				<button type="submit" class="btn-primary">Search</button>
@@ -34,7 +36,8 @@
 					<th>Appointment ID</th>
 					<th>Doctor</th>
 					<th>Patient</th>
-					<th>Date & Time</th>
+					<th>Date</th>
+            		<th>Time</th>
 					<th>Status</th>
 				</tr>
 			</thead>
@@ -43,8 +46,8 @@
 					<td th:text="${appt.id}"></td>
 					<td th:text="${appt.doctor.name}"></td>
 					<td th:text="${appt.patient.name}"></td>
-					<td
-						th:text="${#temporals.format(appt.appointmentDateTime, 'yyyy-MM-dd HH:mm')}"></td>
+					<td th:text="${appt.date}"></td>
+					<td th:text="${appt.time}"></td>
 					<td th:text="${appt.status}"></td>
 				</tr>
 			</tbody>

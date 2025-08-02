@@ -4,29 +4,51 @@
     <title>Book New Appointment</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/patient-appointment.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 <div th:replace="common/navbar :: navbar"></div>
 
 <div class="appointment-container">
-    <h2>Booking a New Appointment</h2>
+    <h2>Book a New Appointment</h2>
 
     <form th:action="@{/appointments/new}" method="post">
-        <label for="doctor">Select Doctor:</label>
-        <select name="doctorId" id="doctor" required>
-            <option th:each="doctor : ${doctors}"
-                    th:value="${doctor.id}"
-                    th:text="${doctor.name + ' - ' + doctor.specialization}">
-            </option>
-        </select>
+    	<div class="inline-field">
+    		<label for="doctor">Select Doctor:</label>
+        	<select name="doctorId" id="doctor" required>
+	            <option th:each="doctor : ${doctors}"
+	                    th:value="${doctor.id}"
+	                    th:text="${doctor.name + ' - ' + doctor.specialization}">
+	            </option>
+        	</select>
+    	</div>
+        
 
-        <label for="dateTime">Appointment Date & Time:</label>
-        <input type="datetime-local" id="dateTime" name="appointmentDateTime" required />
+        <div class="inline-field">
+		    <label for="date">Appointment Date:</label>
+		    <input type="date" id="date" name="date" required />
+		</div>
+
+		<div class="inline-field">
+		    <label for="time">Appointment Time:</label>
+		    <input type="text" id="time" name="time" required />
+		</div>
 
         <button type="submit">Book Appointment</button>
     </form>
 
     <a th:href="@{/patient/dashboard}">←Go Back to Dashboard</a>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  flatpickr("#time", {
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i", // 24-hour format
+    time_24hr: true,
+    position: "above"
+  });
+</script>
 </body>
 </html>

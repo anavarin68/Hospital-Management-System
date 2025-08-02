@@ -21,7 +21,8 @@
             <thead>
             <tr>
                 <th>Patient Name</th>
-                <th>Appointment Time</th>
+               	<th>Date</th>
+            	<th>Time</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
@@ -29,7 +30,8 @@
             <tbody>
             <tr th:each="appointment : ${appointments}">
                 <td th:text="${appointment.patient.name}">Patient Name</td>
-                <td th:text="${appointment.appointmentDateTime}">Date & Time</td>
+                <td th:text="${appointment.date}"></td>
+    			<td th:text="${appointment.time}"></td>
                 <td th:text="${appointment.status}">Status</td>
                 <td class="action-buttons">
                     <form th:action="@{/doctor/appointments/{id}/complete(id=${appointment.id})}" method="post">
