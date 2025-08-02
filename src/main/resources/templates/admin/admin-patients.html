@@ -34,7 +34,13 @@
 						<td th:text="${patient.email}"></td>
 						<td>
 							<button type="button" class="view-button"
-								th:attr="data-name=${patient.name}, data-age=${patient.age}, data-gender=${patient.gender}, data-contact=${patient.contact}, data-email=${patient.email}">
+								th:attr="
+									    data-name=${patient.name}, 
+									    data-age=${patient.dob != null ? patient.age : 'N/A'}, 
+									    data-dob=${patient.dob != null ? #temporals.format(patient.dob, 'dd-MM-yyyy') : 'N/A'}, 
+									    data-gender=${patient.gender}, 
+									    data-contact=${patient.contact}, 
+									    data-email=${patient.email}">
 								View</button>
 							
 							<a th:href="@{'/admin/patients/edit/' + ${patient.id}}">

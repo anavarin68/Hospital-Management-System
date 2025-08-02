@@ -2,14 +2,18 @@ package com.bbd.HospitalManagement.Controller;
 
 import com.bbd.HospitalManagement.Model.AppointmentDetails;
 import com.bbd.HospitalManagement.Model.DoctorDetails;
+import com.bbd.HospitalManagement.Model.PatientDetails;
 import com.bbd.HospitalManagement.Model.UserRole;
 import com.bbd.HospitalManagement.Service.AppointmentService;
 import com.bbd.HospitalManagement.Service.DoctorService;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -112,11 +116,15 @@ public class DoctorController {
 	        return "redirect:/doctor/login";
 
 	    List<AppointmentDetails> appointments = appointmentService.getAppointmentsByDoctorId(doctorId);
-	    model.addAttribute("appointments", appointments);
+
+	    Set<PatientDetails> uniquePatients = appointments.stream()
+	        .map(AppointmentDetails::getPatient)
+	        .collect(Collectors.toCollection(LinkedHashSet::new));
+
+	    model.addAttribute("patients", uniquePatients);
 	    return "doctor/doctor-patients";
 	}
 
-	
 	//Doctor Dashboard
 	@GetMapping("/dashboard")
 	public String doctorDashboard(HttpSession session, Model model) {

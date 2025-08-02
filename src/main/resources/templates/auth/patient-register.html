@@ -14,7 +14,7 @@
 
 		<form th:action="@{/patient/register}" th:object="${patient}" method="post" class="login-form">
 
-			<label for="name">Name</label>
+			<label for="name">Full Name</label>
 			<input type="text" th:field="*{name}" id="name" placeholder="Your full name" required />
 
 			<label for="gender">Gender</label>

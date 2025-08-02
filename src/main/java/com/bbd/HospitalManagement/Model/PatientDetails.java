@@ -3,6 +3,7 @@ package com.bbd.HospitalManagement.Model;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -117,6 +118,19 @@ public class PatientDetails {
 	    return Period.between(this.dob, LocalDate.now()).getYears();
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+	    PatientDetails that = (PatientDetails) o;
+	    return Objects.equals(id, that.id);
+	}
+
+	@Override
+	public int hashCode() {
+	    return Objects.hash(id);
+	}
+
 	public PatientDetails(String name, LocalDate dob, String gender, String contact, String email, String password,
 			UserRole role, List<AppointmentDetails> appointments) {
 		super();

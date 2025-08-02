@@ -48,6 +48,7 @@ public class PatientServiceImplementation implements PatientService {
 		if (optional.isPresent()) {
 			PatientDetails patient = optional.get();
 			patient.setName(updatedPatient.getName());
+			patient.setDob(updatedPatient.getDob());
 			patient.setGender(updatedPatient.getGender());
 			patient.setEmail(updatedPatient.getEmail());
 			patient.setContact(updatedPatient.getContact());

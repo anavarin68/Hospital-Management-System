@@ -12,30 +12,35 @@
     <h2>Patients List</h2>
     <hr />
 
-    <div th:if="${#lists.isEmpty(appointments)}">
+    <div th:if="${#lists.isEmpty(patients)}">
         <p>No patients yet!</p>
     </div>
 
-    <div th:unless="${#lists.isEmpty(appointments)}">
+    <div th:unless="${#lists.isEmpty(patients)}">
         <table class="appointments-table">
             <thead>
-            <tr>
-                <th>Patient Name</th>
-                <th>Appointment Time</th>
-                <th>Status</th>
-            </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Contact</th>
+                    <th>Email</th>
+                </tr>
             </thead>
             <tbody>
-            <tr th:each="appointment : ${appointments}">
-                <td th:text="${appointment.patient.name}">Patient Name</td>
-                <td th:text="${appointment.appointmentDateTime}">Date & Time</td>
-                <td th:text="${appointment.status}">Status</td>
-            </tr>
+                <tr th:each="patient : ${patients}">
+                    <td th:text="${patient.id}">ID</td>
+                    <td th:text="${patient.name}">Name</td>
+                    <td th:text="${patient.age}">Age</td>
+                    <td th:text="${patient.contact}">Contact</td>
+                    <td th:text="${patient.email}">Email</td>
+                </tr>
             </tbody>
         </table>
     </div>
 
-    <a th:href="@{/doctor/dashboard}" class="back-link">←Go Back to Dashboard</a>
+    <a th:href="@{/doctor/dashboard}" class="back-link">← Go Back to Dashboard</a>
 </div>
+
 </body>
 </html>
