@@ -9,6 +9,7 @@ import com.bbd.HospitalManagement.Service.DoctorService;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,13 +31,13 @@ public class DoctorController {
 	@GetMapping("/register")
 	public String showRegistrationForm(Model model) {
 		model.addAttribute("doctor", new DoctorDetails());
-		return "auth/doctor-register"; // corresponds to templates/auth/doctor-register.html
+		return "auth/doctor-register";
 	}
 
 	// POST: Handle doctor registration
 	@PostMapping("/register")
 	public String registerDoctor(@ModelAttribute DoctorDetails doctor, Model model) {
-		doctor.setRole(UserRole.DOCTOR); // set the role explicitly
+		doctor.setRole(UserRole.DOCTOR);
 		doctorService.registerDoctor(doctor);
 		model.addAttribute("success", "Doctor registered successfully!");
 		return "redirect:/doctor/login";
@@ -115,7 +116,6 @@ public class DoctorController {
 	    return "doctor/doctor-patients";
 	}
 
-
 	
 	//Doctor Dashboard
 	@GetMapping("/dashboard")
@@ -125,9 +125,22 @@ public class DoctorController {
 	        return "redirect:/doctor/login";
 	    }
 
-	    doctorService.getDoctorById(doctorId).ifPresent(doctor -> model.addAttribute("doctor", doctor));
-	    return "doctor/doctor-dashboard"; // templates/doctor/doctor-dashboard.html
+	    Optional<DoctorDetails> optionalDoctor = doctorService.getDoctorById(doctorId);
+	    if (optionalDoctor.isPresent()) {
+	        DoctorDetails doctor = optionalDoctor.get();
+	        model.addAttribute("doctor", doctor);
+
+	        String fullName = doctor.getName();
+	        if (fullName != null && !fullName.isEmpty()) {
+	            String firstName = fullName.split(" ")[0];
+	            model.addAttribute("firstName", firstName);
+	        } else {
+	            model.addAttribute("firstName", "Doctor");
+	        }
+	    } else {
+	        return "redirect:/doctor/login";
+	    }
+
+	    return "doctor/doctor-dashboard";
 	}
-	
-	
 }

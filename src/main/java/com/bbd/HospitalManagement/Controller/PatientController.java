@@ -6,6 +6,8 @@ import com.bbd.HospitalManagement.Service.PatientService;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,7 @@ public class PatientController {
 	@GetMapping("/register")
 	public String showRegistrationForm(Model model) {
 		model.addAttribute("patient", new PatientDetails());
-		return "auth/patient-register"; // Correct path
+		return "auth/patient-register";
 	}
 	
 	// POST: Handle doctor registration
@@ -37,7 +39,7 @@ public class PatientController {
 	// GET: Show patient login form
 	@GetMapping("/login")
 	public String showLoginForm() {
-		return "auth/patient-login"; // matches templates/auth/patient-login.html
+		return "auth/patient-login";
 	}
 	
 	// POST: Handle doctor login
@@ -46,7 +48,7 @@ public class PatientController {
 			HttpSession session) {
 		return patientService.findByEmailAndRole(email, UserRole.PATIENT).filter(p -> p.getPassword().equals(password))
 				.map(p -> {
-					session.setAttribute("patientId", p.getId()); // ✅ store patient ID
+					session.setAttribute("patientId", p.getId()); //store patient ID
 					return "redirect:/patient/dashboard";
 				}).orElseGet(() -> {
 					model.addAttribute("error", "Invalid email or password");
@@ -60,10 +62,22 @@ public class PatientController {
 	    Long patientId = (Long) session.getAttribute("patientId");
 	    if (patientId == null) return "redirect:/patient/login";
 
-	    patientService.getPatientById(patientId)
-	                  .ifPresent(patient -> model.addAttribute("patient", patient));
-	    
+	    Optional<PatientDetails> optionalPatient = patientService.getPatientById(patientId);
+	    if (optionalPatient.isPresent()) {
+	        PatientDetails patient = optionalPatient.get();
+	        model.addAttribute("patient", patient);
+
+	        String fullName = patient.getName();
+	        if (fullName != null && !fullName.isEmpty()) {
+	            String firstName = fullName.split(" ")[0];
+	            model.addAttribute("firstName", firstName);
+	        } else {
+	            model.addAttribute("firstName", "Patient");
+	        }
+	    } else {
+	        return "redirect:/patient/login";
+	    }
+
 	    return "patient/patient-dashboard";
 	}
-
 }
