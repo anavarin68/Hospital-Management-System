@@ -27,6 +27,7 @@ public class AppointmentController {
 
 	@Autowired
 	private PatientService patientService;
+	
 	// Show form to book a new appointment
 	@GetMapping("/new")
 	public String showAppointmentForm(Model model, HttpSession session) {
@@ -125,5 +126,4 @@ public class AppointmentController {
 	    }
 	    return "redirect:/appointments/patient";
 	}
-
 }

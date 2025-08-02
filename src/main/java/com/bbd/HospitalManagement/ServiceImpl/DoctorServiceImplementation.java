@@ -41,4 +41,27 @@ public class DoctorServiceImplementation implements DoctorService {
 	public Optional<DoctorDetails> getDoctorById(Long id) {
 		return doctorRepository.findById(id);
 	}
+
+	@Override
+	public DoctorDetails updateDoctor(Long id, DoctorDetails updatedDoctor) {
+		Optional<DoctorDetails> optional = doctorRepository.findById(id);
+
+		if (optional.isPresent()) {
+			DoctorDetails doctor = optional.get();
+			doctor.setName(updatedDoctor.getName());
+			doctor.setEmail(updatedDoctor.getEmail());
+			doctor.setSpecialization(updatedDoctor.getSpecialization());
+			doctor.setContact(updatedDoctor.getContact());
+			doctor.setPassword(updatedDoctor.getPassword());
+
+			return doctorRepository.save(doctor);
+		} else {
+			throw new RuntimeException("Doctor with ID " + id + " not found.");
+		}
+	}
+
+	@Override
+	public void deleteDoctorById(Long id) {
+		doctorRepository.deleteById(id);
+	}
 }
