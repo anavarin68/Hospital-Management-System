@@ -52,10 +52,9 @@ h2 {
 /* Labels */
 label {
 	display: block;
-	margin: 5px 0 15px;
+	margin: 10px 0 5px;
 	font-weight: 600;
 	font-size: 14px;
-	padding-top: 10px;
 }
 
 /* Inputs */
@@ -121,4 +120,115 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="password
 	text-align: center;
 	margin-top: 15px;
 	font-size: 14px;
+}
+
+
+
+/* Manage Doctors */
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+}
+
+.search-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-container input[type="text"] {
+    padding: 10px;
+    width: 300px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.search-container button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+.search-container a {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.search-container a:hover {
+    text-decoration: underline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+}
+
+thead {
+    background-color: #09335e;
+    color: white;
+}
+
+th, td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+td a {
+    margin-right: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 5px;
+}
+
+td a.view {
+    background-color: #17a2b8;
+    color: white;
+}
+
+td a.edit {
+    background-color: #ffc107;
+    color: white;
+}
+
+td a.delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+td a:hover {
+    opacity: 0.9;
+}
+
+.back-link {
+    text-align: center;
+}
+
+.back-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-link a:hover {
+    text-decoration: underline;
 }
