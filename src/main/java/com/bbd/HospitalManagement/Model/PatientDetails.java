@@ -1,6 +1,10 @@
 package com.bbd.HospitalManagement.Model;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
 
@@ -14,8 +18,8 @@ public class PatientDetails {
 	@Column
 	private String name;
 
-	@Column
-	private Integer age;
+	@DateTimeFormat(pattern = "dd-MM-yyyy") // important for form binding
+    private LocalDate dob;
 
 	@Column
 	private String gender;
@@ -52,13 +56,13 @@ public class PatientDetails {
 		this.name = name;
 	}
 
-	public Integer getAge() {
-		return age;
-	}
+	public LocalDate getDob() {
+        return dob;
+    }
 
-	public void setAge(Integer age) {
-		this.age = age;
-	}
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
 
 	public String getGender() {
 		return gender;
@@ -107,12 +111,17 @@ public class PatientDetails {
 	public void setAppointments(List<AppointmentDetails> appointments) {
 		this.appointments = appointments;
 	}
-
-	public PatientDetails(String name, Integer age, String gender, String contact, String email, String password,
+	
+	public int getAge() {
+	    if (this.dob == null) return 0; 
+	    return Period.between(this.dob, LocalDate.now()).getYears();
+	}
+	
+	public PatientDetails(String name, LocalDate dob, String gender, String contact, String email, String password,
 			UserRole role, List<AppointmentDetails> appointments) {
 		super();
 		this.name = name;
-		this.age = age;
+		this.dob = dob;
 		this.gender = gender;
 		this.contact = contact;
 		this.email = email;

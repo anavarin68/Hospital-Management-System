@@ -46,7 +46,8 @@
                 <p><strong>ID:</strong> <span th:text="${patient.id}"></span></p>
                 <p><strong>Name:</strong> <span th:text="${patient.name}"></span></p>
                 <p><strong>Email:</strong> <span th:text="${patient.email}"></span></p>
-                <p><strong>Age:</strong> <span th:text="${patient.age}"></span></p>
+                <p><strong>Age:</strong> <span th:text="${patient.dob != null ? patient.age : 'N/A'}"></span></p>
+                <p><strong>Date of Birth:</strong><span th:text="${#temporals.format(patient.dob, 'dd-MM-yyyy')}"></span></p>
                 <p><strong>Gender:</strong> <span th:text="${patient.gender}"></span></p>
                 <p><strong>Phone:</strong> <span th:text="${patient.contact}"></span></p>
             </div>
